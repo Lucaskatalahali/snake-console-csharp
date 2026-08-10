@@ -1,14 +1,14 @@
 namespace snake;
-
-public record Food(Point FoodPosition);
 public class Game
 {
+    private Snake _snake;
     char foodChar = 'o';
     public Screen screen;
     public Point FoodPosition {get; set;}
     public Game()
     {
         screen = new(); //first we create the screen
+        _snake = new();
         FoodPosition = GenerateFood();
     }
 
@@ -17,7 +17,7 @@ public class Game
         Point p; //aqui verificarei posição de acordo ao tamanho da cobre
         do
         {
-            p = new(X: Random.Shared.Next(25), Y: Random.Shared.Next(100)); //de 24 até 99 pois em 25 e 100 já tem a barreira
+            p = Helper.PointGenerator();
            
         }while(!screen.IsGridCellEmpty(p));
 
@@ -33,6 +33,8 @@ public class Game
 
     public void Start()
     {
-        Snake snake = new();
+        _snake.Print(screen);
+        PrintFood();
+        
     }
 }
