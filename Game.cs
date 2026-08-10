@@ -1,4 +1,5 @@
 namespace snake;
+
 public class Game
 {
     private Snake _snake;
@@ -34,7 +35,31 @@ public class Game
     public void Start()
     {
         _snake.Print(screen);
-        PrintFood();
+        PrintFood(); 
+
+        var key = 'a';
+
+        _snake.Move(screen, -1, 0);  // a = <- move on left
+
+/*
+        do
+        {
+            while (!Console.KeyAvailable)
+            {
+               // _snake.Move(screen,)
+            }
+
+           // if(char.TryParse(Console.ReadKey(true), out key))
+            {
+                
+            }
+        
+        }while(true);*/
+    }   
+        
+
+    public void NewMove()
+    {
         
     }
 }

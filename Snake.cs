@@ -2,25 +2,63 @@ namespace snake;
 
 public class Snake
 {
-    public List<Point> SnakePoints {get; set;}
-    public char SnakeChar {get; set;}
+    public LinkedList<Point> SnakePoints {get; set;}
+    
+    public char SnakeBody {get; set;}
+    public char SnakeHead {get; set;}
     public Snake()
     {
-        SnakeChar = 'o';
-        SnakePoints = [
-                new Point(X: 12, Y: 49),
-                new Point(X: 12, Y: 50),
-                new Point(X: 12, Y: 51),
-                ];
+        SnakeBody = 'o';
+        SnakeHead = 'x';
+        SnakePoints = new();
+        SnakePoints.AddLast(new Point(X: 12, Y: 49));
+        SnakePoints.AddLast(new Point(X: 12, Y: 50));
+        SnakePoints.AddLast(new Point(X: 12, Y: 51));
     }
 
     public void Print(Screen screen)
     {
+        int headControl = 0;
         foreach(var point in SnakePoints)
         {
-            screen.Grid[point.X, point.Y] = SnakeChar;
-            Console.SetCursorPosition(point.Y, point.X); //No console invertemos
-            Console.Write(SnakeChar);
+            if(headControl == 0)
+            {
+                screen.Grid[point.X, point.Y] = SnakeHead;
+                Console.SetCursorPosition(point.Y, point.X); //No console invertemos
+                Console.Write(SnakeHead);
+                headControl++;
+            }
+            else
+            {
+                screen.Grid[point.X, point.Y] = SnakeBody;
+                Console.SetCursorPosition(point.Y, point.X); //No console inverte-se
+                Console.Write(SnakeBody);
+            }
+        }    
+    }
+
+    public void Move(Screen screen, int x, int y)
+    {
+        while (!Console.KeyAvailable)
+        {
+            LinkedListNode<Point> last = SnakePoints.Last!;
+            SnakePoints.RemoveLast();
+
+            screen.Grid[last.Value.X, last.Value.Y] = ' ';
+            Console.SetCursorPosition(SnakePoints.First!.Value.Y, SnakePoints.First!.Value.X);
+            Console.Write(SnakeBody);
+
+            Console.SetCursorPosition(last.Value.Y, last.Value.X); //No console inverte-se
+            Console.Write(' ');
+
+            Point p = SnakePoints.First!.Value with { X = SnakePoints.First!.Value.X + x};
+            SnakePoints.AddFirst(p);
+
+            screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
+            Console.SetCursorPosition(SnakePoints.First.Value.Y, SnakePoints.First.Value.X); //No console inverte-se
+            Console.Write(SnakeHead);
+            Thread.Sleep(150);
         }
+        
     }
 }
