@@ -49,5 +49,7 @@ public class Game
         Console.SetCursorPosition(0, Helper.height + 1);
         Console.WriteLine("\t\t== Game Over ==");
         Console.WriteLine($"Score: {Score}");
+        
+        Console.CursorVisible = true;
     }
 }
