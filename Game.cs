@@ -37,20 +37,20 @@ public class Game
         _snake.Print(screen);
         PrintFood(); 
 
-        char key = _snake.Move(screen, 'A', 0, -1);  // A -> MOVE OF LEFT
+         char key = _snake.Move(screen, 'A', 'D', 0, -1);  // A -> MOVE OF LEFT
         do
         {
             if(key == 'A')
-                key = _snake.Move(screen, key, 0, -1);
+                key = _snake.Move(screen, key, 'D', 0, -1);
 
             if(key == 'W')
-                key = _snake.Move(screen,key, -1, 0);
+                key = _snake.Move(screen,key, 'S', -1, 0);
             
             if(key == 'D')
-                key = _snake.Move(screen, key, 0, 1);
+                key = _snake.Move(screen, key, 'A', 0, 1);
 
             if(key == 'S')
-                key = _snake.Move(screen, key, 1, 0);
+                key = _snake.Move(screen, key, 'W', 1, 0);
             
         }while(true);
 
