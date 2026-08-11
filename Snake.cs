@@ -58,16 +58,24 @@ public class Snake
             Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
             SnakePoints.AddFirst(p); 
 
+            if (Helper.HasCollidedWithGrid(SnakePoints.First.Value))
+            {
+                return '0'; //zero means game over
+            }
 
-            //guardar a nova cabeça na grid e escrever no terminal
-           // screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
 
             screen.WriteToConsole(SnakePoints.First.Value, SnakeHead);     
 
             //Verificar se comeu comida ou se mordeu ou pancou na parede
 
             if (Helper.HasEaten(SnakePoints.First.Value))
+            {
                 Helper.GenerateFood(screen);
+                Game.Score ++;
+                Console.SetCursorPosition(0, Helper.height + 2); //+2 pra ir no Score
+                Console.Write($"Score: {Game.Score}");
+            }
+                
             else
                 //Se não comeu, a cauda da cobra deve desaparecer (o que passou a ser na verdade a nova cabeça), simulando andamento da cobra
                 RemoveTail(screen);

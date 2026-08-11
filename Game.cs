@@ -2,6 +2,7 @@ namespace snake;
 
 public class Game
 {
+    public static int Score {get; set;} = 0;
     private Snake _snake;
     public Screen screen;
 
@@ -17,6 +18,9 @@ public class Game
 
     public void Start()
     { 
+        Console.SetCursorPosition(0, Helper.height + 1);
+        Console.WriteLine("Classic Mode");
+        Console.Write($"Score: {Score}"); //também poderia ser : 0
         char key = _snake.Move(screen, 'A', 'D', 0, -1);  // A -> MOVE OF LEFT
         do
         {
@@ -31,32 +35,20 @@ public class Game
 
             if(key == 'S')
                 key = _snake.Move(screen, key, 'W', 1, 0);
+
+            if(key == '0')
+            {
+                GameOver();  
+                break;
+            }
             
         }while(true);
-
-       // _snake.Move(screen, 0, -1); //MOVE ON LEFT 
-       // _snake.Move(screen, -1, 0);  // W = <- move UP
-       // _snake.Move(screen, 0, -1); //MOVE ON LEFT 
-
-/*
-        do
-        {
-            while (!Console.KeyAvailable)
-            {
-               // _snake.Move(screen,)
-            }
-
-           // if(char.TryParse(Console.ReadKey(true), out key))
-            {
-                
-            }
-        
-        }while(true);*/
     }   
         
-
-    public void NewMove()
+    public void GameOver()
     {
-        
+        Console.SetCursorPosition(0, Helper.height + 1);
+        Console.WriteLine("\t\t== Game Over ==");
+        Console.WriteLine($"Score: {Score}");
     }
 }

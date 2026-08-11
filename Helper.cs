@@ -23,9 +23,18 @@ public static class Helper
         }while(!screen.IsGridCellEmpty(food));
 
         FoodPosition = food;
-        
+
         screen.WriteToConsole(FoodPosition, foodChar);
     }
     
     public static bool HasEaten(Point headPosition) => headPosition == FoodPosition;
+
+    public static bool HasCollidedWithGrid(Point snake)
+    {
+        return
+             snake.X == 0 ||
+             snake.X == height - 1 ||
+             snake.Y == 0 ||
+             snake.Y == width - 1;
+    }
 }
