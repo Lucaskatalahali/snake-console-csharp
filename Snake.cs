@@ -11,6 +11,8 @@ public class Snake
         SnakeBody = 'o';
         SnakeHead = 'x';
         SnakePoints = new();
+
+        //The snake position starts aproximately in the middle of the grib 
         SnakePoints.AddLast(new Point(X: 12, Y: 49));
         SnakePoints.AddLast(new Point(X: 12, Y: 50));
         SnakePoints.AddLast(new Point(X: 12, Y: 51));
@@ -37,28 +39,37 @@ public class Snake
         }    
     }
 
-    public void Move(Screen screen, int x, int y)
+    public char Move(Screen screen, char key, int x, int y)
     {
-        while (!Console.KeyAvailable)
-        {
-            LinkedListNode<Point> last = SnakePoints.Last!;
-            SnakePoints.RemoveLast();
+        char input = key;
+        do{
+            while (!Console.KeyAvailable)
+            {
+                LinkedListNode<Point> last = SnakePoints.Last!;
+                SnakePoints.RemoveLast();
 
-            screen.Grid[last.Value.X, last.Value.Y] = ' ';
-            Console.SetCursorPosition(SnakePoints.First!.Value.Y, SnakePoints.First!.Value.X);
-            Console.Write(SnakeBody);
+                screen.Grid[last.Value.X, last.Value.Y] = ' ';
+                Console.SetCursorPosition(SnakePoints.First!.Value.Y, SnakePoints.First!.Value.X);
+                Console.Write(SnakeBody);
 
-            Console.SetCursorPosition(last.Value.Y, last.Value.X); //No console inverte-se
-            Console.Write(' ');
+                Console.SetCursorPosition(last.Value.Y, last.Value.X); //No console inverte-se
+                Console.Write(' ');
 
-            Point p = SnakePoints.First!.Value with { X = SnakePoints.First!.Value.X + x};
-            SnakePoints.AddFirst(p);
+                Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
+                SnakePoints.AddFirst(p);
 
-            screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
-            Console.SetCursorPosition(SnakePoints.First.Value.Y, SnakePoints.First.Value.X); //No console inverte-se
-            Console.Write(SnakeHead);
-            Thread.Sleep(150);
-        }
-        
+                screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
+                Console.SetCursorPosition(SnakePoints.First.Value.Y, SnakePoints.First.Value.X); //No console inverte-se
+                Console.Write(SnakeHead);
+                Thread.Sleep(200);
+            }
+
+            input = char.ToUpper(Console.ReadKey(true).KeyChar);
+            if(input != 'A' && input != 'W' && input != 'D' && input != 'S') //depois acrescentar teclar pausa
+            input = key;
+            
+        }while(input == key);
+
+        return input;
     }
 }
