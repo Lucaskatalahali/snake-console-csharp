@@ -20,6 +20,7 @@ public class Game
         Console.WriteLine("Classic Mode");
         Console.Write($"Score: {Score}"); //também poderia ser : 0
         char key = _snake.Move(screen, 'A', 'D', 0, -1);  // A -> MOVE OF LEFT
+        
         do
         {
             if(key == 'A')

@@ -53,6 +53,7 @@ public class Snake
     public char Move(Screen screen, char key, char subkey, int x, int y)
     {
         char input;
+        
         while (true)
         {
             screen.WriteToConsole(SnakePoints.First!.Value, SnakeBody);

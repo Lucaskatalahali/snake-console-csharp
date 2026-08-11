@@ -15,10 +15,11 @@ public static class Helper
 
     public static void GenerateFood(Screen screen)
     {
-        Point food; //aqui verificarei posição de acordo ao tamanho da cobre
+        Point food;
         do
         {
-            food = new(X: Random.Shared.Next(height - 2), Y: Random.Shared.Next(width - 2)); //de 24 até 99 pois em 25 e 100 já tem a barreira();
+            //food must not be generated on the grid line 
+            food = new(X: Random.Shared.Next(1, height - 1), Y: Random.Shared.Next(1, width - 1));
            
         }while(!screen.IsGridCellEmpty(food));
 
