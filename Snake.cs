@@ -42,10 +42,7 @@ public class Snake
         }    
     }
 
-    private void Delay()
-    {
-        Thread.Sleep(10);
-    }
+    private void Delay() => Thread.Sleep(10);
 
     public char Move(Screen screen, char key, char subkey, int x, int y)
     {
@@ -68,6 +65,13 @@ public class Snake
             screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
             Console.SetCursorPosition(SnakePoints.First.Value.Y, SnakePoints.First.Value.X); //No console inverte-se
             Console.Write(SnakeHead);
+
+            //Verificar se comeu comida ou se pancou ou pancou na parede
+
+            if (Helper.HasEaten(SnakePoints.First.Value))
+            {
+                Helper.GenerateFood(screen);
+            }
 
             for(int i = 0; i < 10; i++)
             {

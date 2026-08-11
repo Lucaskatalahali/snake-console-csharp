@@ -3,41 +3,21 @@ namespace snake;
 public class Game
 {
     private Snake _snake;
-    char foodChar = 'o';
     public Screen screen;
-    public Point FoodPosition {get; set;}
+
     public Game()
     {
         screen = new(); //first we create the screen
         _snake = new();
-        FoodPosition = GenerateFood();
+        _snake.Print(screen);
+        Helper.GenerateFood(screen);
     }
 
-    public Point GenerateFood()
-    {
-        Point p; //aqui verificarei posição de acordo ao tamanho da cobre
-        do
-        {
-            p = Helper.PointGenerator();
-           
-        }while(!screen.IsGridCellEmpty(p));
 
-        return p;
-    }
-
-    public void PrintFood()
-    {
-        screen.Grid[FoodPosition.X, FoodPosition.Y] = foodChar;
-        Console.SetCursorPosition(FoodPosition.Y, FoodPosition.X); //No console invertemos
-        Console.Write(foodChar);
-    }
 
     public void Start()
-    {
-        _snake.Print(screen);
-        PrintFood(); 
-
-         char key = _snake.Move(screen, 'A', 'D', 0, -1);  // A -> MOVE OF LEFT
+    { 
+        char key = _snake.Move(screen, 'A', 'D', 0, -1);  // A -> MOVE OF LEFT
         do
         {
             if(key == 'A')
