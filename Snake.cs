@@ -5,7 +5,7 @@ public class Snake
     public LinkedList<Point> SnakePoints {get; set;}
     public char SnakeBody {get; set;}
     public char SnakeHead {get; set;}
-    private Queue<char> _inpuQueue;
+    private Queue<char> _inputQueue;
 
     public Snake()
     {
@@ -18,7 +18,7 @@ public class Snake
         SnakePoints.AddLast(new Point(X: 12, Y: 50));
         SnakePoints.AddLast(new Point(X: 12, Y: 51));
 
-        _inpuQueue = new();
+        _inputQueue = new();
     }
 
     public void Print(Screen screen)
@@ -42,6 +42,16 @@ public class Snake
         }    
     }
 
+    private void RemoveTail(Screen screen)
+    {
+        LinkedListNode<Point> last = SnakePoints.Last!;
+        SnakePoints.RemoveLast();
+        screen.Grid[last.Value.X, last.Value.Y] = ' ';
+        Console.SetCursorPosition(last.Value.Y, last.Value.X); //No console inverte-se
+        Console.Write(' ');
+        
+    }
+
     private void Delay() => Thread.Sleep(10);
 
     public char Move(Screen screen, char key, char subkey, int x, int y)
@@ -49,43 +59,42 @@ public class Snake
         char input;
         while (true)
         {
-            LinkedListNode<Point> last = SnakePoints.Last!;
-            SnakePoints.RemoveLast();
-
-            screen.Grid[last.Value.X, last.Value.Y] = ' ';
             Console.SetCursorPosition(SnakePoints.First!.Value.Y, SnakePoints.First!.Value.X);
             Console.Write(SnakeBody);
 
-            Console.SetCursorPosition(last.Value.Y, last.Value.X); //No console inverte-se
-            Console.Write(' ');
-
+            //Novo ponto (a nova cabeça) estará na frente da actual cabeça
             Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
-            SnakePoints.AddFirst(p);
+            SnakePoints.AddFirst(p); 
 
+
+            //guardar a nova cabeça na grid e escrever no terminal
             screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
             Console.SetCursorPosition(SnakePoints.First.Value.Y, SnakePoints.First.Value.X); //No console inverte-se
-            Console.Write(SnakeHead);
+            Console.Write(SnakeHead);           
 
-            //Verificar se comeu comida ou se pancou ou pancou na parede
+            //Verificar se comeu comida ou se mordeu ou pancou na parede
 
             if (Helper.HasEaten(SnakePoints.First.Value))
-            {
                 Helper.GenerateFood(screen);
-            }
+            else
+                //Se não comeu, a cauda da cobra deve desaparecer (o que passou a ser na verdade a nova cabeça), simulando andamento da cobra
+                RemoveTail(screen);
+
+            //Pausar o screen um pouco e ler as entradas de movimento do usuário
 
             for(int i = 0; i < 10; i++)
             {
                 Delay();
                 if (Console.KeyAvailable)
                 {
-                    if(_inpuQueue.Count <= 2)
-                    _inpuQueue.Enqueue(char.ToUpper(Console.ReadKey(true).KeyChar));
+                    if(_inputQueue.Count <= 2)
+                    _inputQueue.Enqueue(char.ToUpper(Console.ReadKey(true).KeyChar));
                 }
             }
 
-            if(_inpuQueue.Count != 0)
+            if(_inputQueue.Count != 0)
             {
-                input = _inpuQueue.Dequeue();
+                input = _inputQueue.Dequeue();
                 if((input != 'A' && input != 'W' && input != 'D' && input != 'S') || input == subkey) //depois acrescentar teclar pausa
                     continue;
                 break;
