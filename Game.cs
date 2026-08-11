@@ -14,8 +14,6 @@ public class Game
         Helper.GenerateFood(screen);
     }
 
-
-
     public void Start()
     { 
         Console.SetCursorPosition(0, Helper.height + 1);

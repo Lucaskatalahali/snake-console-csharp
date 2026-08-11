@@ -45,7 +45,10 @@ public class Snake
         screen.WriteToConsole(last.Value, ' ');
     }
 
-    private void Delay() => Thread.Sleep(10);
+    private bool HasBittenItself()
+    {
+        return SnakePoints.Skip(1).Contains(SnakePoints.First!.Value);
+    }
 
     public char Move(Screen screen, char key, char subkey, int x, int y)
     {
@@ -58,13 +61,17 @@ public class Snake
             Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
             SnakePoints.AddFirst(p); 
 
+            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead); 
+
             if (Helper.HasCollidedWithGrid(SnakePoints.First.Value))
             {
                 return '0'; //zero means game over
+            }  
+
+            if(HasBittenItself())
+            {
+                return '0';
             }
-
-
-            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead);     
 
             //Verificar se comeu comida ou se mordeu ou pancou na parede
 
@@ -84,7 +91,7 @@ public class Snake
 
             for(int i = 0; i < 10; i++)
             {
-                Delay();
+                Helper.Delay();
                 if (Console.KeyAvailable)
                 {
                     if(_inputQueue.Count <= 2)
