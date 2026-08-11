@@ -14,9 +14,9 @@ public class Snake
         SnakePoints = new();
 
         //The snake position starts aproximately in the middle of the grib 
-        SnakePoints.AddLast(new Point(X: 12, Y: 49));
-        SnakePoints.AddLast(new Point(X: 12, Y: 50));
-        SnakePoints.AddLast(new Point(X: 12, Y: 51));
+        SnakePoints.AddLast(new Point(X: Helper.height/2, Y: Helper.width/2));
+        SnakePoints.AddLast(new Point(X: Helper.height/2, Y: Helper.width/2 + 1));
+        SnakePoints.AddLast(new Point(X: Helper.height/2, Y: Helper.width/2 + 2));
 
         _inputQueue = new();
     }
@@ -28,16 +28,12 @@ public class Snake
         {
             if(headControl == 0)
             {
-                screen.Grid[point.X, point.Y] = SnakeHead;
-                Console.SetCursorPosition(point.Y, point.X); //No console invertemos
-                Console.Write(SnakeHead);
+                screen.WriteToConsole(point, SnakeHead); 
                 headControl++;
             }
             else
             {
-                screen.Grid[point.X, point.Y] = SnakeBody;
-                Console.SetCursorPosition(point.Y, point.X); //No console inverte-se
-                Console.Write(SnakeBody);
+                screen.WriteToConsole(point, SnakeBody);
             }
         }    
     }
@@ -46,10 +42,7 @@ public class Snake
     {
         LinkedListNode<Point> last = SnakePoints.Last!;
         SnakePoints.RemoveLast();
-        screen.Grid[last.Value.X, last.Value.Y] = ' ';
-        Console.SetCursorPosition(last.Value.Y, last.Value.X); //No console inverte-se
-        Console.Write(' ');
-        
+        screen.WriteToConsole(last.Value, ' ');
     }
 
     private void Delay() => Thread.Sleep(10);
@@ -59,8 +52,7 @@ public class Snake
         char input;
         while (true)
         {
-            Console.SetCursorPosition(SnakePoints.First!.Value.Y, SnakePoints.First!.Value.X);
-            Console.Write(SnakeBody);
+            screen.WriteToConsole(SnakePoints.First!.Value, SnakeBody);
 
             //Novo ponto (a nova cabeça) estará na frente da actual cabeça
             Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
@@ -68,9 +60,9 @@ public class Snake
 
 
             //guardar a nova cabeça na grid e escrever no terminal
-            screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
-            Console.SetCursorPosition(SnakePoints.First.Value.Y, SnakePoints.First.Value.X); //No console inverte-se
-            Console.Write(SnakeHead);           
+           // screen.Grid[SnakePoints.First.Value.X, SnakePoints.First.Value.Y] = SnakeHead;
+
+            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead);     
 
             //Verificar se comeu comida ou se mordeu ou pancou na parede
 
