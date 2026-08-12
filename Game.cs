@@ -19,11 +19,10 @@ public class Game
 
     public static void Pause()
     {
-        var keyInfo = Console.ReadKey(true);
-        while(keyInfo.Key != ConsoleKey.Spacebar)
+        do
         {
-            keyInfo = Console.ReadKey(true);
-        }
+            //do nothing, just pause untill Spacebar is clicked
+        } while(Console.ReadKey(true).Key != ConsoleKey.Spacebar);
     }
 
     public void Start()
