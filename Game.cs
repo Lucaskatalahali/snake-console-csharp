@@ -2,6 +2,7 @@ namespace snake;
 
 public class Game
 {
+    public const int delayLimit = 10; //Runs n times and pauses for n milliseconds (it does two job)
     public static int Score {get; set;} = 0;
     private Snake _snake;
     public Screen screen;
@@ -14,6 +15,8 @@ public class Game
         Helper.GenerateFood(screen);
     }
 
+    public static void Delay() => Thread.Sleep(delayLimit);
+
     public void Start()
     { 
         Console.SetCursorPosition(0, Helper.height + 1);
@@ -24,7 +27,7 @@ public class Game
         do
         {
             if(key == 'A')
-                key = _snake.Move(screen, key, 'D', 0, -1);
+                key = _snake.Move(screen, key, 'D', 0, -1);                
 
             if(key == 'W')
                 key = _snake.Move(screen,key, 'S', -1, 0);
@@ -48,7 +51,7 @@ public class Game
     {
         Console.SetCursorPosition(0, Helper.height + 1);
         Console.WriteLine("\t\t== Game Over ==");
-        Console.WriteLine($"Score: {Score}");
+        Console.WriteLine($"Score: {Score}"); //desnecessário, mas apenas pra sobrescrever
         
         Console.CursorVisible = true;
     }

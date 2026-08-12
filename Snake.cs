@@ -90,9 +90,13 @@ public class Snake
 
             //Pausar o screen um pouco e ler as entradas de movimento do usuário
 
-            for(int i = 0; i < 10; i++)
+            int delay = Game.delayLimit;
+            if(key == 'A' || key == 'D')
+                delay = delay/2 - 1; // run for approximately half the waiting time
+
+            for(int i = 0; i < delay; i++)
             {
-                Helper.Delay();
+                Game.Delay();
                 if (Console.KeyAvailable)
                 {
                     if(_inputQueue.Count <= 2)

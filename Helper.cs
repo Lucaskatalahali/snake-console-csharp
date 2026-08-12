@@ -30,8 +30,6 @@ public static class Helper
     
     public static bool HasEaten(Point headPosition) => headPosition == FoodPosition;
 
-    public static void Delay() => Thread.Sleep(10);
-
     public static bool HasCollidedWithGrid(Point snake)
     {
         return
