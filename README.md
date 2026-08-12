@@ -8,30 +8,21 @@ Control the snake, eat the food that spawns on the screen to grow, and try to ge
 
 ## 🕹️ Controls
 
-| Key | Action |
-| :--- | :--- |
-| **W** | Move **Up** |
-| **S** | Move **Down** |
-| **A** | Move **Left** |
-| **D** | Move **Right** |
+Use the **Arrow Keys** (↑ → ↓ ←) to move the snake.
 
-**Note:** Movement is controlled **exclusively via the WASD keys** (arrow keys are not supported yet).
+Press the **Spacebar** to pause the game.
+
+Alternatively, you can also use the standard **WASD** keys for movement. 
 
 ---
 
 ## 🚀 How to Run
 
 ### Prerequisites
+* [.NET 10.0 SDK](https://dotnet.microsoft.com/) installed on your machine.
+> *Compatibility note:* If you are using .NET 8 or 9, open the `.csproj` file and change `<TargetFramework>net10.0</TargetFramework>` to match your version.
 
-1. [.NET 10.0 SDK](https://dotnet.microsoft.com/) installed on your machine.
-
-> If you have an older version installed (such as .NET 8), open the `.csproj` file and change `<TargetFramework>net10.0</TargetFramework>` to your installed version.
-
-2. Get the code by downloading the ZIP or by cloning the repository using the terminal.
-3. Open the project folder in your terminal or IDE (such as VS Code) and run:
+1. Get the code by downloading the ZIP or cloning the repository using the terminal.
+2. Open the project folder in your terminal or IDE (such as VS Code) and run:
    ```bash
    dotnet run
-
-## Notes
-Moving up and down may seem faster because monospace characters in the console are taller than they are wide.
-Make sure your terminal window has a minimum size of 100 columns by 25 lines to prevent rendering glitches.
