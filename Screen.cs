@@ -7,8 +7,6 @@ public class Screen
     public Screen()
     {
         Grid = new char[Helper.height, Helper.width];
-        Clear();
-        Print();
     }
 
     public void Clear()
@@ -36,6 +34,8 @@ public class Screen
         //Console.SetWindowSize(100, 25);
         //Console.SetBufferSize(100, 25);
         Console.CursorVisible = false;
+        
+        Clear();
 
         // 1. Bordas Horizontais (Superior e Inferior)
         for (int x = 0; x < Helper.width; x++)

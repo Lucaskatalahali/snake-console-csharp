@@ -6,13 +6,7 @@ public static class Helper
     public const int height = 25;
     public const char foodChar = 'o';
     public static Point FoodPosition {get; set;} = default!;
-
-    /*public static  Point PointGenerator()
-    {
-        Point p = new(X: Random.Shared.Next(23), Y: Random.Shared.Next(99)); //de 24 até 99 pois em 25 e 100 já tem a barreira
-        return p;
-    }*/
-
+    
     public static void GenerateFood(Screen screen)
     {
         Point food;
@@ -37,5 +31,20 @@ public static class Helper
              snake.X == height - 1 ||
              snake.Y == 0 ||
              snake.Y == width - 1;
+    }
+
+    public static int ReadOption(int limit)
+    {
+        while (true)
+        {
+            Console.WriteLine();
+            Console.Write("Select Option: ");
+            string? input = Console.ReadLine();
+            if (int.TryParse(input, out int option) && option >= 1 && option <= limit)
+            {
+                return option;
+            }
+            Console.WriteLine("Invalid option! Try again...");
+        }
     }
 }

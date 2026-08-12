@@ -2,9 +2,9 @@ namespace snake;
 
 public class Snake
 {
-    public LinkedList<Point> SnakePoints {get; set;}
-    public char SnakeBody {get; set;}
-    public char SnakeHead {get; set;}
+    private LinkedList<Point> SnakePoints {get; set;}
+    private char SnakeBody {get; set;}
+    private char SnakeHead {get; set;}
     private Queue<ConsoleKey> _inputQueue;
 
     public Snake()
@@ -89,9 +89,9 @@ public class Snake
 
             //Pausar o screen um pouco e ler as entradas de movimento do usuário
 
-            int delay = Game.delayLimit;
+            int delay = (int)Game.Level;
             if(key == ConsoleKey.A || key == ConsoleKey.LeftArrow || key == ConsoleKey.D || key == ConsoleKey.RightArrow)
-                delay = delay/2 - 1; // run for approximately half the waiting time
+                delay = delay/2; // run for approximately half the waiting time
 
             for(int i = 0; i < delay; i++)
             {
