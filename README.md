@@ -16,7 +16,7 @@ Alternatively, you can also use the standard **WASD** keys for movement.
 
 ---
 
-The game features 4 difficulty modes (easy, normal, hard and impossible) that adjust the snake's speed:
+The game features 4 difficulty modes (easy, normal, hard and impossible) that adjust the snake's speed.
 
 Select your preferred mode in the main menu before starting.
 
