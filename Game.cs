@@ -17,28 +17,37 @@ public class Game
 
     public static void Delay() => Thread.Sleep(delayLimit);
 
+    public static void Pause()
+    {
+        var keyInfo = Console.ReadKey(true);
+        while(keyInfo.Key != ConsoleKey.Spacebar)
+        {
+            keyInfo = Console.ReadKey(true);
+        }
+    }
+
     public void Start()
     { 
         Console.SetCursorPosition(0, Helper.height + 1);
         Console.WriteLine("Classic Mode");
         Console.Write($"Score: {Score}"); //também poderia ser : 0
-        char key = _snake.Move(screen, 'A', 'D', 0, -1);  // A -> MOVE OF LEFT
+        ConsoleKey key = _snake.Move(screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT
         
         do
         {
-            if(key == 'A')
-                key = _snake.Move(screen, key, 'D', 0, -1);                
+            if(key == ConsoleKey.A || key == ConsoleKey.LeftArrow)
+                key = _snake.Move(screen, key, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);                
 
-            if(key == 'W')
-                key = _snake.Move(screen,key, 'S', -1, 0);
+            if(key == ConsoleKey.W || key == ConsoleKey.UpArrow)
+                key = _snake.Move(screen,key, (ConsoleKey.DownArrow, ConsoleKey.S), -1, 0);
             
-            if(key == 'D')
-                key = _snake.Move(screen, key, 'A', 0, 1);
+            if(key == ConsoleKey.D || key == ConsoleKey.RightArrow)
+                key = _snake.Move(screen, key, (ConsoleKey.LeftArrow, ConsoleKey.A), 0, 1);
 
-            if(key == 'S')
-                key = _snake.Move(screen, key, 'W', 1, 0);
+            if(key == ConsoleKey.S || key == ConsoleKey.DownArrow)
+                key = _snake.Move(screen, key, (ConsoleKey.UpArrow, ConsoleKey.W), 1, 0);
 
-            if(key == '0')
+            if(key == ConsoleKey.D0)
             {
                 GameOver();  
                 break;

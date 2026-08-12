@@ -5,7 +5,7 @@ public class Snake
     public LinkedList<Point> SnakePoints {get; set;}
     public char SnakeBody {get; set;}
     public char SnakeHead {get; set;}
-    private Queue<char> _inputQueue;
+    private Queue<ConsoleKey> _inputQueue;
 
     public Snake()
     {
@@ -50,10 +50,9 @@ public class Snake
         return SnakePoints.Skip(1).Contains(SnakePoints.First!.Value);
     }
 
-    public char Move(Screen screen, char key, char subkey, int x, int y)
-    {
-        char input;
-        
+    public ConsoleKey Move(Screen screen, ConsoleKey key, (ConsoleKey subkey1, ConsoleKey subkey2) subkey, int x, int y)
+    {   
+        ConsoleKey input;
         while (true)
         {
             screen.WriteToConsole(SnakePoints.First!.Value, SnakeBody);
@@ -66,12 +65,12 @@ public class Snake
 
             if (Helper.HasCollidedWithGrid(SnakePoints.First.Value))
             {
-                return '0'; //zero means game over
+                return ConsoleKey.D0; //Digit 0 means game over
             }  
 
             if(HasBittenItself())
             {
-                return '0';
+                return ConsoleKey.D0;
             }
 
             //Verificar se comeu comida ou se mordeu ou pancou na parede
@@ -91,7 +90,7 @@ public class Snake
             //Pausar o screen um pouco e ler as entradas de movimento do usuário
 
             int delay = Game.delayLimit;
-            if(key == 'A' || key == 'D')
+            if(key == ConsoleKey.A || key == ConsoleKey.LeftArrow || key == ConsoleKey.D || key == ConsoleKey.RightArrow)
                 delay = delay/2 - 1; // run for approximately half the waiting time
 
             for(int i = 0; i < delay; i++)
@@ -100,14 +99,24 @@ public class Snake
                 if (Console.KeyAvailable)
                 {
                     if(_inputQueue.Count <= 2)
-                    _inputQueue.Enqueue(char.ToUpper(Console.ReadKey(true).KeyChar));
+                    _inputQueue.Enqueue(Console.ReadKey(true).Key);
                 }
             }
 
             if(_inputQueue.Count != 0)
             {
                 input = _inputQueue.Dequeue();
-                if((input != 'A' && input != 'W' && input != 'D' && input != 'S') || input == subkey) //depois acrescentar teclar pausa
+
+                if(input == ConsoleKey.Spacebar)
+                {
+                    Game.Pause();
+                }
+
+                if(input != ConsoleKey.A && input != ConsoleKey.LeftArrow && 
+                    input != ConsoleKey.W && input != ConsoleKey.UpArrow && 
+                    input != ConsoleKey.D && input != ConsoleKey.RightArrow && 
+                    input != ConsoleKey.S && input != ConsoleKey.DownArrow ||
+                    (input == subkey.subkey1) || input == subkey.subkey2)
                     continue;
                 break;
             }
