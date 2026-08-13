@@ -9,6 +9,7 @@ public enum GameLevel
 }
 public class Game
 {
+    private bool _obstacle = false;
     public static GameLevel Level {get; private set;} = GameLevel.Easy;
     private const int delayLimit = 10;
     public static int Score {get; set;} = 0;
@@ -23,10 +24,11 @@ public class Game
     
     private bool Menu()
     {
-        Console.WriteLine($"1 - Start Game ({Level} Mode)");
-        Console.WriteLine("2 - Change Level");
+        Console.WriteLine("1 - Start Game");
+        Console.WriteLine($"2 - Change Level ({Level})");
+        Console.WriteLine($"3 - Obstacles ({(_obstacle == true? "Enabled" : "Disabled")})");
 
-        int option = Helper.ReadOption(2);
+        int option = Helper.ReadOption(3);
 
         if (option == 1)
         {
@@ -36,6 +38,12 @@ public class Game
         else if (option == 2)
         {
             Level = ChangeGameLevel();
+            Console.Clear();
+            return true;
+        }
+        else if(option == 3)
+        {
+            _obstacle = !_obstacle;
             Console.Clear();
             return true;
         }
@@ -79,6 +87,7 @@ public class Game
         while(Menu());
 
         _screen.Print();
+        if(_obstacle) _screen.PrintObstacles();
         _snake.Print(_screen);
         Helper.GenerateFood(_screen);
 

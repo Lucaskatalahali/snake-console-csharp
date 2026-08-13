@@ -13,10 +13,17 @@ public class Snake
         SnakeHead = 'x';
         SnakePoints = new();
 
-        //The snake position starts aproximately in the middle of the grib 
-        SnakePoints.AddLast(new Point(X: Screen.height/2, Y: Screen.width/2));
-        SnakePoints.AddLast(new Point(X: Screen.height/2, Y: Screen.width/2 + 1));
-        SnakePoints.AddLast(new Point(X: Screen.height/2, Y: Screen.width/2 + 2));
+       // Posição no eixo Y (coluna centralizada)
+        int startY = Screen.width / 2;
+
+        // Posição no eixo X: Meio caminho entre a barreira inferior e a borda do fundo
+        int bottomObstacleRow = (Screen.height * 3) / 4;
+        int startX = (bottomObstacleRow + (Screen.height - 1)) / 2; // ~Linha 21
+
+        // A cobra nasce virada para a esquerda (ou direita), com o corpo alinhado horizontalmente
+        SnakePoints.AddLast(new Point(X: startX, Y: startY));
+        SnakePoints.AddLast(new Point(X: startX, Y: startY + 1));
+        SnakePoints.AddLast(new Point(X: startX, Y: startY + 2));
 
         _inputQueue = new();
     }
