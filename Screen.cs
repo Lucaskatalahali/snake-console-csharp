@@ -2,18 +2,21 @@ namespace snake;
 
 public class Screen
 {
+    public const int width = 100;
+    public const int height = 25;
     public char[,] Grid {get; set;}
+    public Point FoodPosition {get; set;} = default!;
 
     public Screen()
     {
-        Grid = new char[Helper.height, Helper.width];
+        Grid = new char[height, width];
     }
 
     public void Clear()
     {
-        for(int x = 0; x < Helper.height; x++)
+        for(int x = 0; x < height; x++)
         {
-            for(int y = 0; y <Helper.width; y++)
+            for(int y = 0; y < width; y++)
             {
                 Grid[x, y] = ' ';
             }
@@ -38,19 +41,19 @@ public class Screen
         Clear();
 
         // 1. Bordas Horizontais (Superior e Inferior)
-        for (int x = 0; x < Helper.width; x++)
+        for (int x = 0; x < width; x++)
         {        
             WriteToConsole(new Point(0, x), '-'); // Linha do topo
 
-            WriteToConsole(new Point(Helper.height - 1, x), '-'); // Linha do fundo
+            WriteToConsole(new Point(height - 1, x), '-'); // Linha do fundo
         }
 
         // 2. Bordas Verticais (Esquerda e Direita)
-        for (int y = 0; y < Helper.height; y++)
+        for (int y = 0; y < height; y++)
         {
             WriteToConsole(new Point(y, 0), '|'); //Coluna esquerda
 
-            WriteToConsole(new Point(y, Helper.width - 1), '|'); //Coluna direita (99)
+            WriteToConsole(new Point(y, width - 1), '|'); //Coluna direita (99)
         }
     }
 }

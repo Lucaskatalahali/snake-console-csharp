@@ -64,13 +64,13 @@ public class Game
 
     public static void Pause()
     {
-        Console.SetCursorPosition(Helper.width/2 - 4, Helper.height + 1);
+        Console.SetCursorPosition(Screen.width/2 - 4, Screen.height + 1);
         Console.Write("PAUSE");
         do
         {
             //do nothing, just pause untill Spacebar is clicked
         } while(Console.ReadKey(true).Key != ConsoleKey.Spacebar);
-        Console.SetCursorPosition(Helper.width/2 - 4, Helper.height + 1);
+        Console.SetCursorPosition(Screen.width/2 - 4, Screen.height + 1);
         Console.Write("     ");
     }
 
@@ -82,7 +82,7 @@ public class Game
         _snake.Print(_screen);
         Helper.GenerateFood(_screen);
 
-        Console.SetCursorPosition(0, Helper.height + 1);
+        Console.SetCursorPosition(0, Screen.height + 1);
         Console.WriteLine($"{Level} Mode");
         Console.Write($"Score: {Score}"); //também poderia ser : 0
         ConsoleKey key = _snake.Move(_screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT
@@ -112,7 +112,7 @@ public class Game
         
     private void GameOver()
     {
-        Console.SetCursorPosition(Helper.width/2 - 9, Helper.height + 1);
+        Console.SetCursorPosition(Screen.width/2 - 9, Screen.height + 1);
         Console.WriteLine("== Game Over ==");
         Console.WriteLine();
         

@@ -14,11 +14,30 @@ public class Snake
         SnakePoints = new();
 
         //The snake position starts aproximately in the middle of the grib 
-        SnakePoints.AddLast(new Point(X: Helper.height/2, Y: Helper.width/2));
-        SnakePoints.AddLast(new Point(X: Helper.height/2, Y: Helper.width/2 + 1));
-        SnakePoints.AddLast(new Point(X: Helper.height/2, Y: Helper.width/2 + 2));
+        SnakePoints.AddLast(new Point(X: Screen.height/2, Y: Screen.width/2));
+        SnakePoints.AddLast(new Point(X: Screen.height/2, Y: Screen.width/2 + 1));
+        SnakePoints.AddLast(new Point(X: Screen.height/2, Y: Screen.width/2 + 2));
 
         _inputQueue = new();
+    }
+
+    private bool HasEaten(Point foodPosition) => SnakePoints.First!.Value == foodPosition;
+
+    private bool HasCollided(Point snake, Screen screen)
+    {
+        return
+             snake.X == 0 ||
+             snake.X == Screen.height - 1 ||
+             snake.Y == 0 ||
+             snake.Y == Screen.width - 1 ||
+             (screen.Grid[snake.X, snake.Y] != ' ' && snake != screen.FoodPosition);
+    }
+
+    private void RemoveTail(Screen screen)
+    {
+        LinkedListNode<Point> last = SnakePoints.Last!;
+        SnakePoints.RemoveLast();
+        screen.WriteToConsole(last.Value, ' ');
     }
 
     public void Print(Screen screen)
@@ -38,18 +57,6 @@ public class Snake
         }    
     }
 
-    private void RemoveTail(Screen screen)
-    {
-        LinkedListNode<Point> last = SnakePoints.Last!;
-        SnakePoints.RemoveLast();
-        screen.WriteToConsole(last.Value, ' ');
-    }
-
-    private bool HasBittenItself()
-    {
-        return SnakePoints.Skip(1).Contains(SnakePoints.First!.Value);
-    }
-
     public ConsoleKey Move(Screen screen, ConsoleKey key, (ConsoleKey subkey1, ConsoleKey subkey2) subkey, int x, int y)
     {   
         ConsoleKey input;
@@ -61,31 +68,28 @@ public class Snake
             Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
             SnakePoints.AddFirst(p); 
 
-            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead); 
-
-            if (Helper.HasCollidedWithGrid(SnakePoints.First.Value))
+            
+            //Verificar se comeu colidiu com a grade ou mordeu a cauda
+            if (HasCollided(SnakePoints.First.Value, screen))
             {
+                screen.WriteToConsole(SnakePoints.First.Value, SnakeHead);
                 return ConsoleKey.D0; //Digit 0 means game over
-            }  
-
-            if(HasBittenItself())
-            {
-                return ConsoleKey.D0;
-            }
-
-            //Verificar se comeu comida ou se mordeu ou pancou na parede
-
-            if (Helper.HasEaten(SnakePoints.First.Value))
+            } 
+            
+            if (HasEaten(screen.FoodPosition))
             {
                 Helper.GenerateFood(screen);
                 Game.Score ++;
-                Console.SetCursorPosition(0, Helper.height + 2); //+2 pra ir no Score
+                Console.SetCursorPosition(0, Screen.height + 2); //+2 pra ir no Score
                 Console.Write($"Score: {Game.Score}");
+                
             }
                 
             else
                 //Se não comeu, a cauda da cobra deve desaparecer (o que passou a ser na verdade a nova cabeça), simulando andamento da cobra
                 RemoveTail(screen);
+
+            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead); 
 
             //Pausar o screen um pouco e ler as entradas de movimento do usuário
 
