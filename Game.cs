@@ -2,10 +2,10 @@ namespace snake;
 
 public enum GameLevel
 {
-    Easy = 40,
-    Normal = 20,
-    Hard = 8,
-    Impossible = 4
+    Easy = 30,
+    Normal = 15,
+    Hard = 6,
+    Impossible = 2
 }
 public class Game
 {
