@@ -113,7 +113,7 @@ public class Game
         Console.WriteLine($"║{text.PadRight(MenuWidth)}║");
     }
 
-    // Centraliza perfeitamente o texto entre as duas bordas ║ ... ║
+    // Centraliza perfeitamente o texto entre as duas bordas
     private static void PrintMenuLineCentered(string text)
     {
         if (text.Length > MenuWidth)
@@ -177,23 +177,23 @@ public class Game
 
     public static void Delay() => Thread.Sleep(delayLimit);
 
-public static void Pause(Screen screen)
-{
-    string message = "== PAUSE ==";
-
-    int x = screen.LeftOffset + (Screen.width - message.Length) / 2;
-    int y = screen.TopOffset + Screen.height + 1;
-
-    Console.SetCursorPosition(x, y);
-    Console.Write(message);
-
-    do
+    public static void Pause(Screen screen)
     {
-    } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
+        string message = "== PAUSE ==";
 
-    Console.SetCursorPosition(x, y);
-    Console.Write(new string(' ', message.Length));
-}
+        int x = screen.LeftOffset + (Screen.width - message.Length) / 2;
+        int y = screen.TopOffset + Screen.height + 1;
+
+        Console.SetCursorPosition(x, y);
+        Console.Write(message);
+
+        do
+        {
+        } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
+
+        Console.SetCursorPosition(x, y);
+        Console.Write(new string(' ', message.Length));
+    }
 
     private void ShowHowToPlay()
     {
@@ -231,6 +231,13 @@ public static void Pause(Screen screen)
 
     public void Start()
     {
+        if (Console.BufferWidth < Screen.width || Console.BufferHeight < Screen.height + 3)
+        {
+            Console.WriteLine("Please maximize the console window before playing.");
+            Console.WriteLine("Press any key to exit...");
+            Console.ReadKey(true);
+            return;
+        }
         while (true)
         {
             bool startGame = Menu();
@@ -259,7 +266,7 @@ public static void Pause(Screen screen)
                 _screen.LeftOffset,
                 _screen.TopOffset + Screen.height + 2
             );
-
+            
             Console.Write($"Score: {Score}");
 
             ConsoleKey key = _snake.Move(_screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT

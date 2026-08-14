@@ -6,4 +6,3 @@ Console.OutputEncoding = Encoding.UTF8;
 Console.Clear();
 Game game = new();
 game.Start();
-//Console.Clear();
