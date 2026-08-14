@@ -5,7 +5,7 @@ public enum GameLevel
     Easy = 30,
     Normal = 15,
     Hard = 6,
-    Impossible = 2
+    Insane = 2
 }
 public class Game
 {
@@ -37,7 +37,7 @@ public class Game
             Console.Clear();
 
             Console.WriteLine("╔════════════════════════════════════╗");
-            PrintMenuLine("              SNAKE");
+            PrintMenuLineCentered("SNAKE");
             Console.WriteLine("╠════════════════════════════════════╣");
             PrintMenuLine("");
 
@@ -104,12 +104,26 @@ public class Game
         }
     }
 
+    // Alinha à esquerda e preenche até a borda direita
     private static void PrintMenuLine(string text)
     {
         if (text.Length > MenuWidth)
             text = text[..MenuWidth];
 
         Console.WriteLine($"║{text.PadRight(MenuWidth)}║");
+    }
+
+    // Centraliza perfeitamente o texto entre as duas bordas ║ ... ║
+    private static void PrintMenuLineCentered(string text)
+    {
+        if (text.Length > MenuWidth)
+            text = text[..MenuWidth];
+
+        int totalSpaces = MenuWidth - text.Length;
+        int leftPadding = totalSpaces / 2;
+        int rightPadding = totalSpaces - leftPadding;
+
+        Console.WriteLine($"║{new string(' ', leftPadding)}{text}{new string(' ', rightPadding)}║");
     }
 
     private GameLevel ChangeGameLevel()
@@ -125,7 +139,7 @@ public class Game
             Console.Clear();
 
             Console.WriteLine("╔════════════════════════════════════╗");
-            PrintMenuLine("          SELECT LEVEL");
+            PrintMenuLineCentered("SELECT LEVEL");
             Console.WriteLine("╠════════════════════════════════════╣");
             PrintMenuLine("");
 
@@ -163,24 +177,23 @@ public class Game
 
     public static void Delay() => Thread.Sleep(delayLimit);
 
-    public static void Pause()
+public static void Pause(Screen screen)
+{
+    string message = "== PAUSE ==";
+
+    int x = screen.LeftOffset + (Screen.width - message.Length) / 2;
+    int y = screen.TopOffset + Screen.height + 1;
+
+    Console.SetCursorPosition(x, y);
+    Console.Write(message);
+
+    do
     {
-        string message = "== PAUSE ==";
+    } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
 
-        int x = (Screen.width - message.Length) / 2;
-        int y = Screen.height + 1;
-
-        Console.SetCursorPosition(x, y);
-        Console.Write(message);
-
-        do
-        {
-            // Wait until Spacebar is pressed
-        } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
-
-        Console.SetCursorPosition(x, y);
-        Console.Write(new string(' ', message.Length));
-    }
+    Console.SetCursorPosition(x, y);
+    Console.Write(new string(' ', message.Length));
+}
 
     private void ShowHowToPlay()
     {
@@ -189,7 +202,7 @@ public class Game
             Console.Clear();
 
             Console.WriteLine("╔════════════════════════════════════╗");
-            PrintMenuLine("            HOW TO PLAY");
+            PrintMenuLineCentered("HOW TO PLAY");
             Console.WriteLine("╠════════════════════════════════════╣");
             PrintMenuLine("");
             PrintMenuLine("  Move the snake using:");
@@ -235,9 +248,20 @@ public class Game
             _snake.Print(_screen);
             Helper.GenerateFood(_screen);
 
-            Console.SetCursorPosition(0, Screen.height + 1);
-            Console.WriteLine($"{Level} Mode");
-            Console.Write($"Score: {Score}"); //também poderia ser : 0
+            Console.SetCursorPosition(
+                _screen.LeftOffset,
+                _screen.TopOffset + Screen.height + 1
+            );
+
+            Console.WriteLine($"Difficulty: {Level}");
+
+            Console.SetCursorPosition(
+                _screen.LeftOffset,
+                _screen.TopOffset + Screen.height + 2
+            );
+
+            Console.Write($"Score: {Score}");
+
             ConsoleKey key = _snake.Move(_screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT
             
             bool gameOver = false;
@@ -270,11 +294,13 @@ public class Game
     {
         string gameOverMessage = "== GAME OVER ==";
         string continueMessage = "Click any key to continue...";
+        int leftOffset = Math.Max(0, (Console.WindowWidth - Screen.width) / 2);
+        int topOffset = Math.Max(0, (Console.WindowHeight - Screen.height) / 2);
 
-        int gameOverX = (Screen.width - gameOverMessage.Length) / 2;
-        int continueX = (Screen.width - continueMessage.Length) / 2;
+        int gameOverX = leftOffset + (Screen.width - gameOverMessage.Length) / 2;
+        int continueX = leftOffset + (Screen.width - continueMessage.Length) / 2;
 
-        int y = Screen.height / 2;
+        int y = topOffset + Screen.height / 2;
 
         Console.SetCursorPosition(gameOverX, y);
         Console.Write(gameOverMessage);

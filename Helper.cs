@@ -2,7 +2,7 @@ namespace snake;
 
 public static class Helper
 {
-    public const char foodChar = 'o';
+    public const char foodChar = '\u25CB'; // ○
     
     public static void GenerateFood(Screen screen)
     {

@@ -2,9 +2,11 @@ namespace snake;
 
 public class Screen
 {
-    public const char ObstacleChar = '#';
+    public const char ObstacleChar = '\u2588'; // █
     public const int width = 100;
     public const int height = 25;
+    public int LeftOffset { get; set; }
+    public int TopOffset { get; set; }
     public char[,] Grid {get; set;}
     public Point FoodPosition {get; set;} = default!;
 
@@ -29,7 +31,7 @@ public class Screen
     public void WriteToConsole(Point point, char character)
     {
         Grid[point.X, point.Y] = character;
-        Console.SetCursorPosition(point.Y, point.X); //No console inverte-se o ponto para (Y, X)
+        Console.SetCursorPosition(LeftOffset + point.Y, TopOffset + point.X); //No console inverte-se o ponto para (Y, X)
         Console.Write(character);
     }
 
@@ -67,23 +69,33 @@ public class Screen
         //Console.SetWindowSize(100, 25);
         //Console.SetBufferSize(100, 25);
         Console.CursorVisible = false;
+         Console.CursorVisible = false;
+
+        LeftOffset = Math.Max(0, (Console.WindowWidth - width) / 2);
+        TopOffset = Math.Max(0, (Console.WindowHeight - height) / 2);
         
         Clear();
 
         // 1. Bordas Horizontais (Superior e Inferior)
         for (int x = 0; x < width; x++)
         {        
-            WriteToConsole(new Point(0, x), '-'); // Linha do topo
+            WriteToConsole(new Point(0, x), '═'); // Linha do topo
 
-            WriteToConsole(new Point(height - 1, x), '-'); // Linha do fundo
+            WriteToConsole(new Point(height - 1, x), '═'); // Linha do fundo
         }
 
         // 2. Bordas Verticais (Esquerda e Direita)
         for (int y = 0; y < height; y++)
         {
-            WriteToConsole(new Point(y, 0), '|'); //Coluna esquerda
+            WriteToConsole(new Point(y, 0), '║'); //Coluna esquerda
 
-            WriteToConsole(new Point(y, width - 1), '|'); //Coluna direita (99)
+            WriteToConsole(new Point(y, width - 1), '║'); //Coluna direita (99)
         }
+
+        // 3. Cantos
+        WriteToConsole(new Point(0, 0), '╔');
+        WriteToConsole(new Point(0, width - 1), '╗');
+        WriteToConsole(new Point(height - 1, 0), '╚');
+        WriteToConsole(new Point(height - 1, width - 1), '╝');
     }
 }

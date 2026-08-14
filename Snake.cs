@@ -9,8 +9,8 @@ public class Snake
 
     public Snake()
     {
-        SnakeBody = 'o';
-        SnakeHead = 'x';
+        SnakeBody = '\u2022'; // •
+        SnakeHead = '\u25CF'; // ●
         SnakePoints = new();
 
        // Posição no eixo Y (coluna centralizada)
@@ -87,7 +87,11 @@ public class Snake
             {
                 Helper.GenerateFood(screen);
                 Game.Score ++;
-                Console.SetCursorPosition(0, Screen.height + 2); //+2 pra ir no Score
+                Console.SetCursorPosition(
+                screen.LeftOffset,
+                screen.TopOffset + Screen.height + 2
+                );
+
                 Console.Write($"Score: {Game.Score}");
                 
             }
@@ -120,7 +124,7 @@ public class Snake
 
                 if(input == ConsoleKey.Spacebar)
                 {
-                    Game.Pause();
+                    Game.Pause(screen);
                 }
 
                 if(input != ConsoleKey.A && input != ConsoleKey.LeftArrow && 
