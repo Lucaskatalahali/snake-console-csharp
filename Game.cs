@@ -49,6 +49,9 @@ public class Game
 
             PrintMenuLine("");
             Console.WriteLine("╚════════════════════════════════════╝");
+            Console.WriteLine();
+            Console.WriteLine("NOTE: Your terminal window should be maximized");
+            Console.WriteLine("      or be at least 100x30 in size.");
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
@@ -231,13 +234,6 @@ public class Game
 
     public void Start()
     {
-        if (Console.BufferWidth < Screen.width || Console.BufferHeight < Screen.height + 3)
-        {
-            Console.WriteLine("Please maximize the console window before playing.");
-            Console.WriteLine("Press any key to exit...");
-            Console.ReadKey(true);
-            return;
-        }
         while (true)
         {
             bool startGame = Menu();
