@@ -41,6 +41,8 @@ You don't need .NET installed to play:
 1. Go to the [Releases](../../releases/latest) tab and download `snake.exe` or `snake-game-win-x64.zip`.
 2. Extract the files (if downloaded as `.zip`) and double-click `snake.exe`.
 3. **Important:** Maximize your terminal window (or ensure it is at least **100x30**) for the best experience.
+> **Note:** When opening `snake.exe` for the first time, Windows may show an *"Unknown Publisher"* prompt. Simply click **Run** to launch the game.
+
 
 ---
 
