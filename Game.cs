@@ -49,8 +49,6 @@ public class Game
 
             PrintMenuLine("");
             Console.WriteLine("╚════════════════════════════════════╝");
-            Console.WriteLine();
-            Console.WriteLine("       ↑ ↓ Select    ENTER Confirm");
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
@@ -139,8 +137,6 @@ public class Game
 
             PrintMenuLine("");
             Console.WriteLine("╚════════════════════════════════════╝");
-            Console.WriteLine();
-            Console.WriteLine("       ↑ ↓ Select    ENTER Confirm");
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
@@ -198,7 +194,7 @@ public class Game
             PrintMenuLine("");
             PrintMenuLine("  Move the snake using:");
             PrintMenuLine("");
-            PrintMenuLine("      ↑ ↓ ← →");
+            PrintMenuLine("      the arrow keys");
             PrintMenuLine("      or");
             PrintMenuLine("      W / A / S / D");
             PrintMenuLine("");
