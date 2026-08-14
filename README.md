@@ -2,7 +2,7 @@
 
 A classic Snake game built in **C#** to be played directly in the terminal/console.
 
-> ### 📦 **Downloads (Windows x64 - No .NET required):**
+> ### 📦 **Downloads (Windows x64):**
 > * 📥 [**Download Executable (.exe)**](https://github.com/lucaskatalahali/snake-console-csharp/releases/latest/download/snake.exe)
 > * 📦 [**Download Archive (.zip)**](https://github.com/lucaskatalahali/snake-console-csharp/releases/latest/download/snake-game-win-x64.zip)
 
