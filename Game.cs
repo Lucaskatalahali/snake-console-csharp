@@ -11,120 +11,285 @@ public class Game
 {
     private bool _obstacle = false;
     public static GameLevel Level {get; private set;} = GameLevel.Easy;
+    private const int MenuWidth = 36;
+    private int _selectedMenuOption = 0;
     private const int delayLimit = 10;
     public static int Score {get; set;} = 0;
-    private Snake _snake;
-    private Screen _screen;
+    private Snake _snake = null!;
+    private Screen _screen = null!;
 
-    public Game()
-    {
-        _screen = new(); //first we create the screen
-        _snake = new();
-    }
-    
     private bool Menu()
     {
-        Console.WriteLine("1 - Start Game");
-        Console.WriteLine($"2 - Change Level ({Level})");
-        Console.WriteLine($"3 - Obstacles ({(_obstacle == true? "Enabled" : "Disabled")})");
+        int selected = _selectedMenuOption;
 
-        int option = Helper.ReadOption(3);
+        Console.CursorVisible = false;
 
-        if (option == 1)
+        while (true)
         {
+            string[] options =
+        [
+            "Start Game",
+            $"Change Level ({Level})",
+            $"Obstacles ({(_obstacle ? "Enabled" : "Disabled")})",
+            "How to Play",
+            "Exit"
+        ];
             Console.Clear();
-            return false;
+
+            Console.WriteLine("╔════════════════════════════════════╗");
+            PrintMenuLine("              SNAKE");
+            Console.WriteLine("╠════════════════════════════════════╣");
+            PrintMenuLine("");
+
+            for (int i = 0; i < options.Length; i++)
+            {
+                string prefix = i == selected ? "> " : "  ";
+                PrintMenuLine($"        {prefix}{options[i]}");
+            }
+
+            PrintMenuLine("");
+            Console.WriteLine("╚════════════════════════════════════╝");
+            Console.WriteLine();
+            Console.WriteLine("       ↑ ↓ Select    ENTER Confirm");
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow || key == ConsoleKey.W)
+            {
+                selected--;
+
+                if (selected < 0)
+                    selected = options.Length - 1;
+            }
+            else if (key == ConsoleKey.DownArrow || key == ConsoleKey.S)
+            {
+                selected++;
+
+                if (selected >= options.Length)
+                    selected = 0;
+            }
+            else if (key == ConsoleKey.Enter)
+            {
+                _selectedMenuOption = selected;
+
+                if (selected == 0)
+                {
+                    Console.Clear();
+                    return true;
+                }
+
+                if (selected == 1)
+                {
+                    Level = ChangeGameLevel();
+                    continue;
+                }
+
+                if (selected == 2)
+                {
+                    _obstacle = !_obstacle;
+                    continue;
+                }
+
+                if (selected == 3)
+                {
+                    ShowHowToPlay();
+                    continue;
+                }
+
+                if (selected == 4)
+                {
+                    Console.Clear();
+                    Console.CursorVisible = true;
+                    return false;
+                }
+            }
         }
-        else if (option == 2)
-        {
-            Level = ChangeGameLevel();
-            Console.Clear();
-            return true;
-        }
-        else if(option == 3)
-        {
-            _obstacle = !_obstacle;
-            Console.Clear();
-            return true;
-        }
-        else return false;
+    }
+
+    private static void PrintMenuLine(string text)
+    {
+        if (text.Length > MenuWidth)
+            text = text[..MenuWidth];
+
+        Console.WriteLine($"║{text.PadRight(MenuWidth)}║");
     }
 
     private GameLevel ChangeGameLevel()
     {
-        Console.Clear();
-        
-        // Ordena do maior delay (Easy = 60) para o menor (Impossible = 12)
         var levels = Enum.GetValues<GameLevel>()
                         .OrderByDescending(l => (int)l)
                         .ToArray();
 
-        for (int i = 0; i < levels.Length; i++)
-        {
-            Console.WriteLine($"{i + 1} - {levels[i]}");
-        }
+        int selected = Array.IndexOf(levels, Level);
 
-        int option = Helper.ReadOption(levels.Length);
-        return levels[option - 1];
+        while (true)
+        {
+            Console.Clear();
+
+            Console.WriteLine("╔════════════════════════════════════╗");
+            PrintMenuLine("          SELECT LEVEL");
+            Console.WriteLine("╠════════════════════════════════════╣");
+            PrintMenuLine("");
+
+            for (int i = 0; i < levels.Length; i++)
+            {
+                string prefix = i == selected ? "> " : "  ";
+                PrintMenuLine($"        {prefix}{levels[i]}");
+            }
+
+            PrintMenuLine("");
+            Console.WriteLine("╚════════════════════════════════════╝");
+            Console.WriteLine();
+            Console.WriteLine("       ↑ ↓ Select    ENTER Confirm");
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.UpArrow || key == ConsoleKey.W)
+            {
+                selected--;
+
+                if (selected < 0)
+                    selected = levels.Length - 1;
+            }
+            else if (key == ConsoleKey.DownArrow || key == ConsoleKey.S)
+            {
+                selected++;
+
+                if (selected >= levels.Length)
+                    selected = 0;
+            }
+            else if (key == ConsoleKey.Enter)
+            {
+                return levels[selected];
+            }
+        }
     }
 
     public static void Delay() => Thread.Sleep(delayLimit);
 
     public static void Pause()
     {
-        Console.SetCursorPosition(Screen.width/2 - 4, Screen.height + 1);
-        Console.Write("PAUSE");
+        string message = "== PAUSE ==";
+
+        int x = (Screen.width - message.Length) / 2;
+        int y = Screen.height + 1;
+
+        Console.SetCursorPosition(x, y);
+        Console.Write(message);
+
         do
         {
-            //do nothing, just pause untill Spacebar is clicked
-        } while(Console.ReadKey(true).Key != ConsoleKey.Spacebar);
-        Console.SetCursorPosition(Screen.width/2 - 4, Screen.height + 1);
-        Console.Write("     ");
+            // Wait until Spacebar is pressed
+        } while (Console.ReadKey(true).Key != ConsoleKey.Spacebar);
+
+        Console.SetCursorPosition(x, y);
+        Console.Write(new string(' ', message.Length));
+    }
+
+    private void ShowHowToPlay()
+    {
+        while (true)
+        {
+            Console.Clear();
+
+            Console.WriteLine("╔════════════════════════════════════╗");
+            PrintMenuLine("            HOW TO PLAY");
+            Console.WriteLine("╠════════════════════════════════════╣");
+            PrintMenuLine("");
+            PrintMenuLine("  Move the snake using:");
+            PrintMenuLine("");
+            PrintMenuLine("      ↑ ↓ ← →");
+            PrintMenuLine("      or");
+            PrintMenuLine("      W / A / S / D");
+            PrintMenuLine("");
+            PrintMenuLine("  Eat the food to increase");
+            PrintMenuLine("  your score.");
+            PrintMenuLine("");
+            PrintMenuLine("  Avoid the walls and obstacles.");
+            PrintMenuLine("");
+            PrintMenuLine("  Press SPACE to pause.");
+            PrintMenuLine("");
+            PrintMenuLine("  Press ESC to return.");
+            PrintMenuLine("");
+            Console.WriteLine("╚════════════════════════════════════╝");
+
+            ConsoleKey key = Console.ReadKey(true).Key;
+
+            if (key == ConsoleKey.Escape)
+                return;
+        }
     }
 
     public void Start()
     {
-        while(Menu());
-
-        _screen.Print();
-        if(_obstacle) _screen.PrintObstacles();
-        _snake.Print(_screen);
-        Helper.GenerateFood(_screen);
-
-        Console.SetCursorPosition(0, Screen.height + 1);
-        Console.WriteLine($"{Level} Mode");
-        Console.Write($"Score: {Score}"); //também poderia ser : 0
-        ConsoleKey key = _snake.Move(_screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT
-        
-        do
+        while (true)
         {
-            if(key == ConsoleKey.A || key == ConsoleKey.LeftArrow)
-                key = _snake.Move(_screen, key, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);                
+            bool startGame = Menu();
 
-            if(key == ConsoleKey.W || key == ConsoleKey.UpArrow)
-                key = _snake.Move(_screen,key, (ConsoleKey.DownArrow, ConsoleKey.S), -1, 0);
+            if (!startGame)
+                return;
+
+            Score = 0;
+            _screen = new(); //first we create the screen
+            _snake = new();
+
+            _screen.Print();
+
+            if(_obstacle) _screen.PrintObstacles();
+            _snake.Print(_screen);
+            Helper.GenerateFood(_screen);
+
+            Console.SetCursorPosition(0, Screen.height + 1);
+            Console.WriteLine($"{Level} Mode");
+            Console.Write($"Score: {Score}"); //também poderia ser : 0
+            ConsoleKey key = _snake.Move(_screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT
             
-            if(key == ConsoleKey.D || key == ConsoleKey.RightArrow)
-                key = _snake.Move(_screen, key, (ConsoleKey.LeftArrow, ConsoleKey.A), 0, 1);
+            bool gameOver = false;
 
-            if(key == ConsoleKey.S || key == ConsoleKey.DownArrow)
-                key = _snake.Move(_screen, key, (ConsoleKey.UpArrow, ConsoleKey.W), 1, 0);
-
-            if(key == ConsoleKey.D0)
+            do
             {
-                GameOver();  
-                break;
-            }
-            
-        }while(true);
-    }   
+                if(key == ConsoleKey.A || key == ConsoleKey.LeftArrow)
+                    key = _snake.Move(_screen, key, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);                
+
+                if(key == ConsoleKey.W || key == ConsoleKey.UpArrow)
+                    key = _snake.Move(_screen,key, (ConsoleKey.DownArrow, ConsoleKey.S), -1, 0);
+                
+                if(key == ConsoleKey.D || key == ConsoleKey.RightArrow)
+                    key = _snake.Move(_screen, key, (ConsoleKey.LeftArrow, ConsoleKey.A), 0, 1);
+
+                if(key == ConsoleKey.S || key == ConsoleKey.DownArrow)
+                    key = _snake.Move(_screen, key, (ConsoleKey.UpArrow, ConsoleKey.W), 1, 0);
+
+                if(key == ConsoleKey.D0)
+                {
+                    gameOver = true;
+                }
+            } while(!gameOver);
+
+            GameOver();
+        }   
+    }
         
     private void GameOver()
     {
-        Console.SetCursorPosition(Screen.width/2 - 9, Screen.height + 1);
-        Console.WriteLine("== Game Over ==");
-        Console.WriteLine();
-        
-        Console.CursorVisible = true;
+        string gameOverMessage = "== GAME OVER ==";
+        string continueMessage = "Click any key to continue...";
+
+        int gameOverX = (Screen.width - gameOverMessage.Length) / 2;
+        int continueX = (Screen.width - continueMessage.Length) / 2;
+
+        int y = Screen.height / 2;
+
+        Console.SetCursorPosition(gameOverX, y);
+        Console.Write(gameOverMessage);
+
+        Console.SetCursorPosition(continueX, y + 1);
+        Console.Write(continueMessage);
+
+        Console.ReadKey(true);
+        Console.CursorVisible = false;
+
+        // Move the cursor below the game area
+        Console.SetCursorPosition(0, Screen.height + 3);
     }
 }

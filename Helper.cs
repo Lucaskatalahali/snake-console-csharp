@@ -18,19 +18,4 @@ public static class Helper
 
         screen.WriteToConsole(food, foodChar);
     }
-
-    public static int ReadOption(int limit)
-    {
-        while (true)
-        {
-            Console.WriteLine();
-            Console.Write("Select Option: ");
-            string? input = Console.ReadLine();
-            if (int.TryParse(input, out int option) && option >= 1 && option <= limit)
-            {
-                return option;
-            }
-            Console.WriteLine("Invalid option! Try again...");
-        }
-    }
 }
