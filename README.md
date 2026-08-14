@@ -2,6 +2,12 @@
 
 A classic Snake game built in **C#** to be played directly in the terminal/console.
 
+> ### 📦 **Downloads (Windows x64 - No .NET required):**
+> * 📥 [**Download Executable (.exe)**](https://github.com/lucaskatalahali/snake-console-csharp/releases/latest/download/snake.exe)
+> * 📦 [**Download Archive (.zip)**](https://github.com/lucaskatalahali/snake-console-csharp/releases/latest/download/snake-game-win-x64.zip)
+
+---
+
 Control the snake, eat the food that spawns on the screen to grow, try to get the highest score possible and avoid colliding with walls or biting your own tail.
 
 ---
