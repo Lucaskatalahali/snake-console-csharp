@@ -28,9 +28,9 @@ The game features **4 difficulty modes** that adjust the snake's speed. Players 
 
 ---
 
-## 📸 Screenshot
+## 📸 Gameplay Preview
 
-![Snake Game Gameplay](./assets/gameplay.png)
+![Snake Game Gameplay](./assets/gameplay.gif)
 
 ---
 
