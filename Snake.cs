@@ -54,12 +54,12 @@ public class Snake
         {
             if(headControl == 0)
             {
-                screen.WriteToConsole(point, SnakeHead); 
+                screen.WriteToConsole(point, SnakeHead, ConsoleColor.DarkGreen); 
                 headControl++;
             }
             else
             {
-                screen.WriteToConsole(point, SnakeBody);
+                screen.WriteToConsole(point, SnakeBody, ConsoleColor.Green);
             }
         }    
     }
@@ -69,7 +69,7 @@ public class Snake
         ConsoleKey input;
         while (true)
         {
-            screen.WriteToConsole(SnakePoints.First!.Value, SnakeBody);
+            screen.WriteToConsole(SnakePoints.First!.Value, SnakeBody, ConsoleColor.Green);
 
             //Novo ponto (a nova cabeça) estará na frente da actual cabeça
             Point p = SnakePoints.First!.Value with { X = SnakePoints.First.Value.X + x, Y = SnakePoints.First.Value.Y + y};
@@ -79,7 +79,7 @@ public class Snake
             //Verificar se comeu colidiu com a grade ou mordeu a cauda
             if (HasCollided(SnakePoints.First.Value, screen))
             {
-                screen.WriteToConsole(SnakePoints.First.Value, SnakeHead);
+                screen.WriteToConsole(SnakePoints.First.Value, SnakeHead, ConsoleColor.DarkGreen);
                 return ConsoleKey.D0; //Digit 0 means game over
             } 
             
@@ -92,7 +92,11 @@ public class Snake
                 screen.TopOffset + Screen.height + 2
                 );
 
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.Write($"Score: {Game.Score}");
+                Console.ResetColor();
+
+                
                 
             }
                 
@@ -100,7 +104,7 @@ public class Snake
                 //Se não comeu, a cauda da cobra deve desaparecer (o que passou a ser na verdade a nova cabeça), simulando andamento da cobra
                 RemoveTail(screen);
 
-            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead); 
+            screen.WriteToConsole(SnakePoints.First.Value, SnakeHead, ConsoleColor.DarkGreen); 
 
             //Pausar o screen um pouco e ler as entradas de movimento do usuário
 

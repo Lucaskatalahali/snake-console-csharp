@@ -2,7 +2,7 @@ namespace snake;
 
 public static class Helper
 {
-    public const char foodChar = '\u25CB'; // ○
+    public const char foodChar = '\u25CF';//\u25CB'; // ○
     
     public static void GenerateFood(Screen screen)
     {
@@ -16,6 +16,6 @@ public static class Helper
 
         screen.FoodPosition = food;
 
-        screen.WriteToConsole(food, foodChar);
+        screen.WriteToConsole(food, foodChar, ConsoleColor.Red);
     }
 }

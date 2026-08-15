@@ -37,7 +37,7 @@ public class Game
             Console.Clear();
 
             Console.WriteLine("╔════════════════════════════════════╗");
-            PrintMenuLineCentered("SNAKE");
+            PrintMenuLineCentered("SNAKE GAME");
             Console.WriteLine("╠════════════════════════════════════╣");
             PrintMenuLine("");
 
@@ -50,8 +50,10 @@ public class Game
             PrintMenuLine("");
             Console.WriteLine("╚════════════════════════════════════╝");
             Console.WriteLine();
-            Console.WriteLine("NOTE: Your terminal window should be maximized");
-            Console.WriteLine("      or be at least 100x30 in size.");
+            // crédito
+            Console.ForegroundColor = ConsoleColor.DarkGray;
+            Console.WriteLine("By Lucas \u2022 github.com/lucaskatalahali");
+            Console.ResetColor();
 
             ConsoleKey key = Console.ReadKey(true).Key;
 
@@ -221,6 +223,9 @@ public class Game
             PrintMenuLine("");
             PrintMenuLine("  Press SPACE to pause.");
             PrintMenuLine("");
+            PrintMenuLine("  Maximized window (100x30)");
+            PrintMenuLine("  recommended for best view.");
+            PrintMenuLine("");
             PrintMenuLine("  Press ESC to return.");
             PrintMenuLine("");
             Console.WriteLine("╚════════════════════════════════════╝");
@@ -255,15 +260,17 @@ public class Game
                 _screen.LeftOffset,
                 _screen.TopOffset + Screen.height + 1
             );
-
+            
             Console.WriteLine($"Difficulty: {Level}");
 
             Console.SetCursorPosition(
                 _screen.LeftOffset,
                 _screen.TopOffset + Screen.height + 2
             );
-            
+
+            Console.ForegroundColor = ConsoleColor.Yellow;
             Console.Write($"Score: {Score}");
+            Console.ResetColor();
 
             ConsoleKey key = _snake.Move(_screen, ConsoleKey.A, (ConsoleKey.RightArrow, ConsoleKey.D), 0, -1);  // A -> MOVE OF LEFT
             
@@ -296,7 +303,7 @@ public class Game
     private void GameOver()
     {
         string gameOverMessage = "== GAME OVER ==";
-        string continueMessage = "Click any key to continue...";
+        string continueMessage = "click any key to continue...";
         int leftOffset = Math.Max(0, (Console.WindowWidth - Screen.width) / 2);
         int topOffset = Math.Max(0, (Console.WindowHeight - Screen.height) / 2);
 
@@ -305,11 +312,24 @@ public class Game
 
         int y = topOffset + Screen.height / 2;
 
+        Console.ForegroundColor = ConsoleColor.Red;
+
         Console.SetCursorPosition(gameOverX, y);
         Console.Write(gameOverMessage);
 
+        Console.ForegroundColor = ConsoleColor.DarkGray;
+
         Console.SetCursorPosition(continueX, y + 1);
         Console.Write(continueMessage);
+        Console.ResetColor();
+
+        // Dá uma pequena pausa (500ms) para o jogador absorver o impacto da batida
+        Thread.Sleep(1000);
+        // Limpa qualquer tecla que tenha sido clicada durante o calor do jogo
+        while (Console.KeyAvailable)
+        {
+            Console.ReadKey(true);
+        }
 
         Console.ReadKey(true);
         Console.CursorVisible = false;

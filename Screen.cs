@@ -28,11 +28,21 @@ public class Screen
 
     public bool IsGridCellEmpty(Point p) => Grid[p.X, p.Y] == ' ';
 
-    public void WriteToConsole(Point point, char character)
+    public void WriteToConsole(Point point, char character, ConsoleColor? color = null)
     {
         Grid[point.X, point.Y] = character;
         Console.SetCursorPosition(LeftOffset + point.Y, TopOffset + point.X); //No console inverte-se o ponto para (Y, X)
-        Console.Write(character);
+
+        if (color.HasValue)
+        {
+            Console.ForegroundColor = color.Value;
+            Console.Write(character);
+            Console.ResetColor();
+        }
+        else
+        {
+            Console.Write(character);
+        }
     }
 
     public void PrintObstacles()
@@ -51,16 +61,16 @@ public class Screen
         int hStart = (width - hLength) / 2; // Centraliza a linha horizontal no eixo X
         for (int i = 0; i < hLength; i++)
         {
-            WriteToConsole(new Point(topRow, hStart + i), ObstacleChar);
-            WriteToConsole(new Point(bottomRow, hStart + i), ObstacleChar);
+            WriteToConsole(new Point(topRow, hStart + i), ObstacleChar, ConsoleColor.DarkGray);
+            WriteToConsole(new Point(bottomRow, hStart + i), ObstacleChar, ConsoleColor.DarkGray);
         }
 
         // 2. Barreiras Verticais (Topo e Fundo nas laterais)
         int vStart = (height - vLength) / 2; // Centraliza a coluna vertical no eixo Y
         for (int i = 0; i < vLength; i++)
         {
-            WriteToConsole(new Point(vStart + i, leftCol), ObstacleChar);
-            WriteToConsole(new Point(vStart + i, rightCol), ObstacleChar);
+            WriteToConsole(new Point(vStart + i, leftCol), ObstacleChar, ConsoleColor.DarkGray);
+            WriteToConsole(new Point(vStart + i, rightCol), ObstacleChar, ConsoleColor.DarkGray);
         }
     }
     
@@ -79,23 +89,23 @@ public class Screen
         // 1. Bordas Horizontais (Superior e Inferior)
         for (int x = 0; x < width; x++)
         {        
-            WriteToConsole(new Point(0, x), '═'); // Linha do topo
+            WriteToConsole(new Point(0, x), '═', ConsoleColor.DarkGray); // Linha do topo
 
-            WriteToConsole(new Point(height - 1, x), '═'); // Linha do fundo
+            WriteToConsole(new Point(height - 1, x), '═', ConsoleColor.DarkGray); // Linha do fundo
         }
 
         // 2. Bordas Verticais (Esquerda e Direita)
         for (int y = 0; y < height; y++)
         {
-            WriteToConsole(new Point(y, 0), '║'); //Coluna esquerda
+            WriteToConsole(new Point(y, 0), '║', ConsoleColor.DarkGray); //Coluna esquerda
 
-            WriteToConsole(new Point(y, width - 1), '║'); //Coluna direita (99)
+            WriteToConsole(new Point(y, width - 1), '║', ConsoleColor.DarkGray); //Coluna direita (99)
         }
 
         // 3. Cantos
-        WriteToConsole(new Point(0, 0), '╔');
-        WriteToConsole(new Point(0, width - 1), '╗');
-        WriteToConsole(new Point(height - 1, 0), '╚');
-        WriteToConsole(new Point(height - 1, width - 1), '╝');
+        WriteToConsole(new Point(0, 0), '╔', ConsoleColor.DarkGray);
+        WriteToConsole(new Point(0, width - 1), '╗', ConsoleColor.DarkGray);
+        WriteToConsole(new Point(height - 1, 0), '╚', ConsoleColor.DarkGray);
+        WriteToConsole(new Point(height - 1, width - 1), '╝', ConsoleColor.DarkGray);
     }
 }
