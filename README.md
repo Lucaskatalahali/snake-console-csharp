@@ -2,9 +2,8 @@
 
 A classic Snake game built in **C#** to be played directly in the terminal/console.
 
-> ### 📦 **Downloads (Windows x64):**
+> ### 📦 **Download (Windows x64):**
 > * 📥 [**Download Executable (.exe)**](https://github.com/lucaskatalahali/snake-console-csharp/releases/latest/download/snake.exe)
-> * 📦 [**Download Archive (.zip)**](https://github.com/lucaskatalahali/snake-console-csharp/releases/latest/download/snake-game-win-x64.zip)
 
 ---
 
@@ -38,8 +37,8 @@ The game features **4 difficulty modes** that adjust the snake's speed. Players 
 
 ### Option 1: Download & Play (Recommended)
 You don't need .NET installed to play:
-1. Go to the [Releases](../../releases/latest) tab and download `snake.exe` or `snake-game-win-x64.zip`.
-2. Extract the files (if downloaded as `.zip`) and double-click `snake.exe`.
+1. Go to the [Releases](../../releases/latest) tab and download `snake.exe`.
+2. Double-click `snake.exe`.
 3. **Important:** Maximize your terminal window (or ensure it is at least **100x30**) for the best experience.
 > **Note:** When opening `snake.exe` for the first time, Windows may show an *"Unknown Publisher"* prompt. Simply click **Run** to launch the game.
 
